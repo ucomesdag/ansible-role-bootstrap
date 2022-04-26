@@ -1,0 +1,20 @@
+---
+dependency:
+  name: galaxy
+  options:
+    requirements-file: requirements.yml
+driver:
+  name: podman
+platforms:
+  - name: "bootstrap-${TOX_ENVNAME:-local}"
+    image: "${MOLECULE_DISTRO:-quay.io/ucomesdag/fedora:latest}"
+    privileged: yes
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    systemd: always
+    pre_build_image: yes
+    override_command: no
+# provisioner:
+#   name: ansible
+# verifier:
+#   name: ansible

@@ -1,0 +1,65 @@
+---
+# vars file for bootstrap
+
+# for distribution names see: https://github.com/chef/os_release
+bootstrap:
+  almalinux:
+    all:
+      packages: python3 sudo
+      raw: dnf install -y
+      stdout_regex: "Nothing to do\\."
+  alpine:
+    all:
+      packages: python3 sudo
+      raw: apk update; apk add
+      stdout_regex: "distinct packages available\\nOK:"
+  amzn:
+    all:
+      packages: python sudo
+      raw: yum install -y
+      stdout_regex: "Nothing to do\\."
+  arch:
+    all:
+      packages: python sudo
+      raw: pacman -Sy --noconfirm
+      stdout_regex: "Net Upgrade Size:\\s+0\\.00 MiB"
+  centos:
+    all:
+      packages: python sudo
+      raw: dnf install -y
+      stdout_regex: "Nothing to do\\."
+  debian:
+    all:
+      packages: python3 sudo gnupg python3-apt
+      raw: apt-get update && apt-get install -y
+      stdout_regex: "0 newly installed"
+  fedora:
+    all:
+      packages: python3 sudo
+      raw: dnf install -y
+      stdout_regex: "Nothing to do\\."
+  rhel:
+    all:
+      packages: python3 sudo
+      raw: dnf install -y
+      stdout_regex: "Nothing to do\\."
+  rocky:
+    all:
+      packages: python3 sudo
+      raw: dnf install -y
+      stdout_regex: "Nothing to do\\."
+  raspbian:
+    all:
+      packages: python3 sudo
+      raw: apt-get update && apt-get install -y
+      stdout_regex: "0 newly installed"
+  sles:
+    all:
+      packages: python3 python3-xml sudo
+      raw: zypper -n install
+      stdout_regex: "Nothing to do\\."
+  ubuntu:
+    all:
+      packages: python3 sudo
+      raw: apt-get update && apt-get install -y
+      stdout_regex: "0 newly installed"

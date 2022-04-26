@@ -1,0 +1,14 @@
+---
+
+- name: Lookup bootstrap facts
+  become: false
+  ansible.builtin.raw: "cat /etc/os-release"
+  register: bootstrap_facts
+  check_mode: false
+  changed_when: false
+
+- name: Set bootstrap facts
+  become: false
+  ansible.builtin.set_fact:
+    bootstrap_distribution: "{{ bootstrap_facts.stdout_lines | join(',') | regex_replace('^.*,ID=\"?(\\w+)\"?,.*$', '\\1') | default('Unknown') }}"
+    bootstrap_distribution_major_version: "{{ bootstrap_facts.stdout_lines | join(',') | regex_replace('^.*,VERSION_ID=\"?(\\d{1,2})(\\.\\d{1,4})*?\"?,.*$', '\\1') | default('Unknown') }}"

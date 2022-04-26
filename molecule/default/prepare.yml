@@ -1,0 +1,17 @@
+---
+- name: Prepare
+  hosts: all
+  gather_facts: false
+  become: false
+
+  tasks:
+    - name: Attempt to remove python and sudo packages
+      become: true
+      become_user: root
+      ansible.builtin.package:
+        name:
+          - sudo
+          - python2
+          - python3
+        state: absent
+      failed_when: false

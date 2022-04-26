@@ -1,0 +1,63 @@
+---
+# tasks file for bootstrap
+
+- name: Wait for port to be available
+  ansible.builtin.wait_for:
+    port: "{{ ansible_port | default('22') }}"
+    timeout: "{{ bootstrap_timeout }}"
+  become: false
+  when:
+    - ansible_connection is defined
+    - ansible_connection is not none
+    - ansible_connection not in [ "container", "podman", "docker", "community.docker.docker" ]
+
+- name: Gather facts
+  ansible.builtin.include_tasks:
+    file: gather_facts.yml
+
+- name: Test for supported distribution
+  ansible.builtin.assert:
+    that:
+      - bootstrap[bootstrap_distribution] is defined
+      - bootstrap[bootstrap_distribution] is not none
+    quiet: true
+    success_msg: "Your distribution {{ bootstrap_distribution }} is supported."
+    fail_msg: "Your distribution {{ bootstrap_distribution }} is not supported."
+
+- name: Prepare system
+  # If python and/or sudo are not installed, than `become` can't be used.
+  # This means this role has to be run as root and can't switch user.
+  block:
+    - name: Test connection
+      ansible.builtin.wait_for_connection:
+        timeout: "{{ bootstrap_timeout }}"
+      changed_when: false
+
+    - name: Test sudo
+      ansible.builtin.command:
+        cmd: sudo --version
+      changed_when: false
+
+    - name: Install bootstrap packages (package)
+      # This will work without python installed, but sudo is required for `become`.
+      become: true
+      become_user: root
+      ansible.builtin.package:
+        name: "{{ packages.split() }}"
+        state: present
+        update_cache: true
+      vars:
+        packages: "{{ bootstrap[bootstrap_distribution][bootstrap_distribution_major_version]['packages'] | default(bootstrap[bootstrap_distribution]['all']['packages']) }}"
+
+  rescue:
+    - name: Install bootstrap packages (raw)
+      become: false
+      ansible.builtin.raw: "{{ raw }} {{ packages }}"
+      args:
+        executable: /bin/sh
+      register: bootstrap_install_packages
+      changed_when: bootstrap_install_packages.stdout | regex_search(stdout_regex) is none
+      vars:
+        packages: "{{ bootstrap[bootstrap_distribution][bootstrap_distribution_major_version]['packages'] | default(bootstrap[bootstrap_distribution]['all']['packages']) }}"
+        raw: "{{ bootstrap[bootstrap_distribution][bootstrap_distribution_major_version]['raw'] | default(bootstrap[bootstrap_distribution]['all']['raw']) }}"
+        stdout_regex: "{{ bootstrap[bootstrap_distribution][bootstrap_distribution_major_version]['stdout_regex'] | default(bootstrap[bootstrap_distribution]['all']['stdout_regex']) }}"

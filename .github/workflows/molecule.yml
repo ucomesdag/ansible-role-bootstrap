@@ -1,0 +1,131 @@
+---
+name: Ansible Molecule
+
+on:
+  push:
+    tags_ignore:
+      - '*'
+  pull_request:
+  schedule:
+    - cron: '2 2 2 * *'
+
+jobs:
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: yamllint
+        uses: ibiqlik/action-yamllint@v3
+      - name: ansible-lint
+        uses: ansible/ansible-lint@main
+
+  test:
+    name: test on ${{ matrix.config.image }}:${{ matrix.config.tag }}
+    runs-on: ubuntu-latest
+    needs:
+      - lint
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - image: "almalinux"
+            tag: "latest"
+            options: "--skip-env lint"
+
+          - image: "almalinux"
+            tag: "8"
+            options: "--skip-env (lint|py.*-2.17)"
+
+          - image: "alpine"
+            tag: "edge"
+            options: "--skip-env lint"
+
+          - image: "alpine"
+            tag: "latest"
+            options: "--skip-env lint"
+
+          - image: "amazonlinux"
+            tag: "latest"
+            options: "--skip-env lint"
+
+          - image: "archlinux"
+            tag: "latest"
+            options: "--skip-env lint"
+
+          - image: "centos"
+            tag: "latest"
+            options: "--skip-env lint"
+
+          - image: "debian"
+            tag: "latest"
+            options: "--skip-env lint"
+
+          - image: "debian"
+            tag: "buster"
+            options: "--skip-env lint"
+
+          - image: "fedora"
+            tag: "rawhide"
+            options: "--skip-env lint"
+
+          - image: "fedora"
+            tag: "latest"
+            options: "--skip-env lint"
+
+          - image: "fedora"
+            tag: "34"
+            options: "--skip-env lint"
+
+          - image: "fedora"
+            tag: "33"
+            options: "--skip-env lint"
+
+          - image: "opensuse"
+            tag: "latest"
+            options: "--skip-env (lint|py.*-2.17)"
+
+          - image: "rhel"
+            tag: "latest"
+            options: "--skip-env lint"
+
+          - image: "rhel"
+            tag: "ubi8"
+            options: "--skip-env (lint|py.*-2.17)"
+
+          - image: "rocky"
+            tag: "latest"
+            options: "--skip-env lint"
+
+          - image: "rocky"
+            tag: "8"
+            options: "--skip-env (lint|py.*-2.17)"
+
+          - image: "rpi-os"
+            tag: "latest"
+            options: "--skip-env lint"
+
+          - image: "ubuntu"
+            tag: "jammy"
+            options: "--skip-env lint"
+
+          - image: "ubuntu"
+            tag: "latest"
+            options: "--skip-env lint"
+
+          - image: "ubuntu"
+            tag: "bionic"
+            options: "--skip-env (lint|py.*-2.17)"
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          path: "${{ github.repository }}"
+      - name: molecule
+        uses: ucomesdag/molecule-action@main
+        with:
+          image: ${{ matrix.config.image }}
+          tag: ${{ matrix.config.tag }}
+          options: ${{ matrix.config.options }}

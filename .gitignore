@@ -1,0 +1,12 @@
+.ansible*
+.cache
+.docker
+.local
+.molecule
+.rustup
+.tekton
+.tox
+.vscode
+!.vscode/extensions.json
+*.log
+*.swp
