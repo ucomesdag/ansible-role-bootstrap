@@ -1,8 +1,8 @@
 ---
 - name: Verify
   hosts: all
-  gather_facts: no
-  become: no
+  gather_facts: false
+  become: false
 
   tasks:
     - name: test connection
@@ -10,4 +10,4 @@
 
     - name: Example assertion
       ansible.builtin.assert:
-        that: True
+        that: true

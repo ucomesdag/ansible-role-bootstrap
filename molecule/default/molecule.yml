@@ -11,8 +11,8 @@ lint: |
 driver:
   name: podman
 platforms:
-  - name: "bootstrap-${TOX_ENVNAME:-local}"
-    image: "${MOLECULE_DISTRO:-quay.io/ucomesdag/fedora:latest}"
+  - name: bootstrap-${TOX_ENVNAME:-local}
+    image: ${MOLECULE_DISTRO:-quay.io/ucomesdag/fedora:latest}
     tmpfs:
       - /run
       - /tmp
