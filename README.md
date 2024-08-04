@@ -1,6 +1,6 @@
 # [bootstrap](#bootstrap)
 
-Prepare your system to be managed by Ansible.
+Prepare your system to be managed by Ansible. This role will install the basic requirements (e.g., Python, sudo, etc.) necessary for the system to be managed by Ansible.
 
 | GitHub                               | Version                                 | License                                 | Ansible Galaxy                   | Downloads                               |
 |--------------------------------------|-----------------------------------------|-----------------------------------------|----------------------------------|-----------------------------------------|
@@ -12,7 +12,6 @@ Prepare your system to be managed by Ansible.
 [galaxy-link]: https://galaxy.ansible.com/ui/standalone/roles/ucomesdag/bootstrap/
 [download-link]: https://galaxy.ansible.com/ui/standalone/roles/ucomesdag/bootstrap/versions/
 
-
 [github-badge]: https://github.com/ucomesdag/ansible-role-bootstrap/workflows/Ansible%20Molecule/badge.svg
 [version-badge]: https://img.shields.io/github/v/release/ucomesdag/ansible-role-bootstrap?include_prereleases&label=Release
 [license-badge]: https://img.shields.io/github/license/ucomesdag/ansible-role-bootstrap?label=License
@@ -22,6 +21,7 @@ Prepare your system to be managed by Ansible.
 ## [Example Playbook](#example-playbook)
 
 This example is taken from `molecule/resources/converge.yml` and is tested on each push, pull request and release.
+
 ```yaml
 ---
 - name: Converge
@@ -36,6 +36,7 @@ This example is taken from `molecule/resources/converge.yml` and is tested on ea
 ## [Role Variables](#role-variables)
 
 These variables are set in `defaults/main.yml`:
+
 ```yaml
 ---
 # defaults file for bootstrap
@@ -87,7 +88,6 @@ Some variations of the build matrix do not work. These are the variations and re
 | variation | reason                                                                                      |
 |-----------|---------------------------------------------------------------------------------------------|
 | py.*-2.17 | Ansible 2.17 requires python 3.8 or newer and will fail run on systems with older versions. |
-
 
 If you find issues, please register them in [GitHub](https://github.com/ucomesdag/ansible-role-bootstrap/issues)
 
