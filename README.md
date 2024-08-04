@@ -58,20 +58,20 @@ Overview of role dependencies:
 
 This role has been tested on these [container images](https://quay.io/user/ucomesdag):
 
-|container      |tags                     |
-|---------------|-------------------------|
-|almalinux      |latest, 8                |
-|alpine         |latest, edge             |
-|amazonlinux    |latest                   |
-|archlinux      |latest                   |
-|centos         |latest, stream8          |
-|debian         |latest, buster           |
-|fedora         |latest, rawhide, 34, 33  |
-|opensuse       |latest                   |
-|rhel           |latest, ubi8             |
-|rocky          |latest, 8                |
-|rpi-os         |latest                   |
-|ubuntu         |latest, jammy, bionic    |
+|container      |tags                            |
+|---------------|--------------------------------|
+|almalinux      |latest, 8                       |
+|alpine         |latest, edge                    |
+|amazonlinux    |latest, 2                       |
+|archlinux      |latest                          |
+|centos         |latest                          |
+|debian         |latest, trixie, bullseye,buster |
+|fedora         |latest, rawhide, 40, 39         |
+|opensuse       |latest, tumbleweed              |
+|rhel           |latest, ubi8                    |
+|rocky          |latest, 8                       |
+|rpi-os         |latest                          |
+|ubuntu         |latest, jammy, focal, bionic    |
 
 The minimum version of Ansible required is 2.16, tests have been done to:
 

@@ -3,8 +3,6 @@ name: Ansible Molecule
 
 on:
   push:
-    tags_ignore:
-      - '*'
   pull_request:
   schedule:
     - cron: '2 2 2 * *'
@@ -59,12 +57,20 @@ jobs:
             options: "--skip-env lint"
 
           - image: "debian"
+            tag: "trixie"
+            options: "--skip-env lint"
+
+          - image: "debian"
             tag: "latest"
             options: "--skip-env lint"
 
           - image: "debian"
-            tag: "buster"
+            tag: "bullseye"
             options: "--skip-env lint"
+
+          - image: "debian"
+            tag: "buster"
+            options: "--skip-env (lint|py.*-2.17)"
 
           - image: "fedora"
             tag: "rawhide"
@@ -75,11 +81,15 @@ jobs:
             options: "--skip-env lint"
 
           - image: "fedora"
-            tag: "34"
+            tag: "40"
             options: "--skip-env lint"
 
           - image: "fedora"
-            tag: "33"
+            tag: "39"
+            options: "--skip-env lint"
+
+          - image: "opensuse"
+            tag: "tumbleweed"
             options: "--skip-env lint"
 
           - image: "opensuse"
@@ -107,11 +117,15 @@ jobs:
             options: "--skip-env lint"
 
           - image: "ubuntu"
+            tag: "latest"
+            options: "--skip-env lint"
+
+          - image: "ubuntu"
             tag: "jammy"
             options: "--skip-env lint"
 
           - image: "ubuntu"
-            tag: "latest"
+            tag: "focal"
             options: "--skip-env lint"
 
           - image: "ubuntu"

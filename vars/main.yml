@@ -38,6 +38,14 @@ bootstrap:
       packages: python3 sudo
       raw: dnf install -y
       stdout_regex: "Nothing to do\\."
+    40:
+      packages: python3 python3-libdnf5 sudo
+      raw: dnf install -y
+      stdout_regex: "Nothing to do\\."
+    rawhide:
+      packages: python3 python3-libdnf5 sudo
+      raw: dnf install -y
+      stdout_regex: "Nothing to do\\."
   rhel:
     all:
       packages: python3 sudo
@@ -53,9 +61,14 @@ bootstrap:
       packages: python3 sudo
       raw: apt-get update && apt-get install -y
       stdout_regex: "0 newly installed"
-  sles:
+  opensuse-leap:
     all:
-      packages: python3 python3-xml sudo
+      packages: python3 sudo
+      raw: zypper -n install
+      stdout_regex: "Nothing to do\\."
+  opensuse-tumbleweed:
+    all:
+      packages: python3 sudo
       raw: zypper -n install
       stdout_regex: "Nothing to do\\."
   ubuntu:
